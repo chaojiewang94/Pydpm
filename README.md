@@ -1,11 +1,16 @@
-Pydpm
+PyDPM
 =============
 [![PyPI](https://img.shields.io/pypi/v/gluonts.svg?style=flat-square)](https://pypi.org/project/gluonts/)
 [![GitHub](https://img.shields.io/github/license/awslabs/gluon-ts.svg?style=flat-square)](./LICENSE)
+[![Downloads](https://pepy.tech/badge/pydpm)](https://pepy.tech/project/pydpm)
+
 
 A python library focuses on constructing deep probabilistic models on GPU.
 Pydpm provides efficient distribution sampling functions and has included lots of implemented probabilistic models.
 
+:fire:**Note: We have released a new version that does not depend on Pycuda.**
+
+[Document](https://dustone-mu.github.io/)
 
 ![Image text](https://raw.githubusercontent.com/BoChenGroup/pydpm/master/pydpm_framework.png)
 
@@ -16,6 +21,8 @@ This library can be installed under both Windows and Linux systems.
 ```
 $ pip install pydpm
 ```
+
+Under Windows system, we recommed to install Visual Studio 2019 and latest CUDA Toolkit. The combination of VS2019(with MSVC v142) and CUDA 11.5 has been tested in pydpm2.0.
 
 Create Probabilistic Model
 =============
@@ -36,6 +43,8 @@ Model list is as following:
 |Dirichlet Belief Networks                 |DirBN        |[Link](https://arxiv.org/pdf/1811.00717.pdf)|
 |Deep Poisson Factor Analysis              |DPFA         |[Link](http://proceedings.mlr.press/v37/gan15.pdf)|
 |Word Embeddings Deep Topic Model          |WEDTM        |[Link](http://proceedings.mlr.press/v80/zhao18a/zhao18a.pdf)|
+|Multimodal Poisson Gamma Belief Network   |MPGBN        |[Link](https://mingyuanzhou.github.io/Papers/mpgbn_aaai18.pdf)|
+|Graph Poisson Gamma Belief Network        |GPGBN        |[Link](https://proceedings.neurips.cc/paper/2020/file/05ee45de8d877c3949760a94fa691533-Paper.pdf)|
 
 More probabilistic models will be further included in pydpm/_model/...
 
@@ -43,14 +52,14 @@ More probabilistic models will be further included in pydpm/_model/...
 
 Create a PGBN model:
 ```python
-from pydpm._model import PGBN
+from pydpm.model import PGBN
 
 # create the model and deploy it on gpu or cpu
 model = PGBN([128, 64, 32], device='gpu')
 model.initial(train_data)
-train_local_params = model.train(100, train_data)
-train_local_params = model.test(100, train_data)
-test_local_params = model.test(100, test_data)
+train_local_params = model.train(train_data, iter_all=100)
+train_local_params = model.test(train_data, iter_all=100)
+test_local_params = model.test(test_data, iter_all=100)
 
 # evaluate the model with classification accuracy
 # the demo accuracy can achieve 0.8549
@@ -100,17 +109,17 @@ More sampler demos can be found in pydpm/_sampler/...
 >Compare
 >
 Compare the sampling speed of distribution functions with numpy:
-![Image text](https://raw.githubusercontent.com/BoChenGroup/pydpm/master/compare_numpy.jpg)
-The compared code can be found in pydpm/example/Sample_Demo.py
+![Image text](https://raw.githubusercontent.com/BoChenGroup/Pydpm/master/compare_numpy.png)  
+The compared code can be found in pydpm/example/Sampler_Speed_Demo.py
 
 Compare the sampling speed of distribution functions with tensorflow and torch:
-![Image text](https://raw.githubusercontent.com/BoChenGroup/pydpm/master/compare_tf2_torch.jpg)
-The compared code can be found in pydpm/example/Sample_Demo2.py
+![Image text](https://raw.githubusercontent.com/BoChenGroup/Pydpm/master/compare_tf2_torch.png)  
+The compared code can be found in pydpm/example/Sampler_Speed_Demo.py
 
 Contact
 ========
 License: Apache License Version 2.0
 
-Contact:  Chaojie Wang <xd_silly@163.com>, Wei Zhao <13279389260@163.com>, Jiawen Wu <wjw19960807@163.com>
+Contact:  Chaojie Wang <xd_silly@163.com>, Wei Zhao <13279389260@163.com>, Xinyang Liu <lxy771258012@163.com>, Jiawen Wu <wjw19960807@163.com>
 
-Copyright (c), 2020, Chaojie Wang, Wei Zhao, Jiawen Wu, Jie Ren, Yewen Li, Hao Zhang, Bo Chen and Mingyuan Zhou
+Copyright (c), 2020, Chaojie Wang, Wei Zhao, Xinyang Liu, Jiawen Wu, Jie Ren, Yewen Li, Hao Zhang, Bo Chen and Mingyuan Zhou
